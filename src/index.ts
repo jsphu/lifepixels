@@ -3,18 +3,33 @@ import { pixelate } from './core/engine';
 import { generateSVG } from './core/renderer';
 import fs from 'fs';
 
-async function main() {
+async function run() {
+  const query = process.argv[2] || ""; // Fallback
   const provider = new EOLProvider();
-  const organism = await provider.fetchOrganismImage('Mus musculus');
 
-  if (organism) {
-    // 50x50 is a great size for GitHub profile pixel art
-    const pixels = await pixelate(organism.buffer, 50);
-    const svg = generateSVG(pixels, 50, 50);
-
-    fs.writeFileSync('organism.svg', svg);
-    console.log(`✅ Generated SVG for: ${organism.scientificName}`);
+  if (!query) {
+      console.error("Query should be a scientific name of animal.")
+      process.exit(1);
   }
+
+    console.log(`Searching for: ${query}...`);
+  const organism = await provider.fetchOrganismImage(query);
+
+  if (!organism) {
+    console.error("No image found for that organism.");
+    process.exit(1);
+  }
+
+  // Generate a 30x30 grid for a compact profile look
+  const gridSize = 30;
+  const pixels = await pixelate(organism.buffer, gridSize);
+  const svg = generateSVG(pixels, gridSize, gridSize);
+
+  // Ensure the output directory exists
+  if (!fs.existsSync('./dist')) fs.mkdirSync('./dist');
+
+  fs.writeFileSync('./dist/organism.svg', svg);
+  console.log(`Success! Saved to ./dist/organism.svg`);
 }
 
-main();
+run();
