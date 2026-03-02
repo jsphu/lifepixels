@@ -3,3 +3,6 @@
 
 ### Search Query: "Mus musculus"
 ![organism](./organism.svg)
+
+### Start using with:
+`yarn dev "Mus musculus"`
