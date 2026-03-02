@@ -5,6 +5,10 @@ inputs:
     description: 'Organism to search for (scientific names; e.g. "Canis lupus familiaris")'
     required: true
     default: 'Mus musculus'
+  output_path:
+    description: 'Output file path for svg file'
+    required: true
+    default: './dist/organism.svg'
 runs:
   using: 'composite'
   steps:
@@ -13,15 +17,10 @@ runs:
       with:
         node-version: '20'
     - name: Install Dependencies
-      # We run this in the directory where the action's code is located
       run: npm install
       shell: bash
       working-directory: ${{ github.action_path }}
     - name: Run Generator
-      run: npx ts-node src/index.ts "${{ inputs.organism_query }}"
+      run: npx ts-node src/index.ts "${{ inputs.organism_query }}" "${{ inputs.output_path }}"
       shell: bash
       working-directory: ${{ github.action_path }}
-    - name: Move Output
-      # Move the generated SVG from the action's temp folder to the caller's workspace
-      run: cp ${{ github.action_path }}/dist/organism.svg ./organism.svg
-      shell: bash
