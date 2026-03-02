@@ -29,7 +29,7 @@ export class EOLProvider {
         }
       });
 
-      const mediaUrl = pageRes.data.taxonConcept?.dataObjects?.[0]?.mediaURL;
+      const mediaUrl = pageRes.data.taxonConcept?.dataObjects?.[0]?.eolMediaURL;
       const scientificName = pageRes.data.taxonConcept?.scientificName || query;
 
       if (!mediaUrl) return null;
