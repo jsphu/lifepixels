@@ -18,7 +18,7 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}
     - name: Run Generator
-      run: npx ts-node src/cli.ts "${{ inputs.organism_query }}"
+      run: npx ts-node src/index.ts "${{ inputs.organism_query }}"
       shell: bash
       working-directory: ${{ github.action_path }}
     - name: Move Output
