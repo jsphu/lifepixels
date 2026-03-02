@@ -29,7 +29,7 @@ jobs:
 
       - name: Generate SVG
         # We use ts-node to run the typescript file directly
-        run: npx ts-node src/cli.ts "${{ github.event.inputs.organism_query }}"
+        run: npx ts-node src/index.ts "${{ github.event.inputs.organism_query }}"
 
       - name: Commit and Push SVG
         run: |
